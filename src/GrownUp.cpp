@@ -62,8 +62,11 @@ public:
             newScale = 1.0f;
 
         player->SetObjectScale(newScale);
-        ChatHandler(player->GetSession())
-            .PSendSysMessage("Your adventure has grown!"); // Message when leveling up may try and add the % back later.
+        if (sConfigMgr->GetOption<bool>("GrownUp.GrownAnnounce", true))
+        {
+            ChatHandler(player->GetSession())
+                .PSendSysMessage("Your adventure has grown!"); // Message when leveling up may try and add the % back later.
+        }
     }
 };
 

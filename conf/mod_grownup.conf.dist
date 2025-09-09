@@ -29,3 +29,12 @@ GrownUp.LoginCheck = 1
 #
 
 GrownUp.Announce = 1
+
+#
+#    GrownUp.GrownAnnounce
+#        Description: Announce each level.
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+
+GrownUp.GrownAnnounce = 0
