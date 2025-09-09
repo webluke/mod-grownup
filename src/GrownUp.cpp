@@ -4,7 +4,7 @@
 
 #include "ScriptMgr.h"
 #include "Player.h"
-#include "Config.h"
+#include "Configuration/Config.h"
 #include "Chat.h"
 
 
@@ -12,6 +12,7 @@
 class GrowUp : public PlayerScript
 {
 public:
+
     GrowUp() : PlayerScript("GrowUp", { 
         PLAYERHOOK_ON_LOGIN,
         PLAYERHOOK_ON_FIRST_LOGIN,
@@ -22,7 +23,7 @@ public:
     {
         if (sConfigMgr->GetOption<bool>("GrownUp.Announce", true))
             ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Grown Up |rmodule.");
-        if (sConfigMgr->GetOption<bool>("GrownUp.Enable", true) && sConfigMgr->GetOption<bool>("GrownUp.LoginCheck", true))
+        if (sConfigMgr->GetOption<bool>("GrownUp.LoginCheck", true))
         {
             uint8 level = player->GetLevel();
             float newScale = 1.0f;
@@ -42,33 +43,27 @@ public:
 
     void OnPlayerFirstLogin(Player* player) override
     {
-        if (sConfigMgr->GetOption<bool>("GrownUp.Enable", true))
-        {
-            player->SetObjectScale(0.5f);
-            ChatHandler(player->GetSession()).SendSysMessage("Your adventure begins young one!");
-        }
+        player->SetObjectScale(0.5f);
+        ChatHandler(player->GetSession()).SendSysMessage("Your adventure begins young one!");
     }
 
     void OnPlayerLevelChanged(Player* player, uint8 /*oldLevel*/) override
     {
-        if (sConfigMgr->GetOption<bool>("GrownUp.Enable", true))
-        {
-            uint8 newLevel = player->GetLevel();
-            float newScale = 1.0f; // default full size
+        uint8 newLevel = player->GetLevel();
+        float newScale = 1.0f; // default full size
 
-            if (newLevel < 5)
-                newScale = 0.5f;
-            else if (newLevel < 10)
-                newScale = 0.65f;
-            else if (newLevel < 15)
-                newScale = 0.85f;
-            else
-                newScale = 1.0f;
+        if (newLevel < 5)
+            newScale = 0.5f;
+        else if (newLevel < 10)
+            newScale = 0.65f;
+        else if (newLevel < 15)
+            newScale = 0.85f;
+        else
+            newScale = 1.0f;
 
-            player->SetObjectScale(newScale);
-            ChatHandler(player->GetSession())
-                .PSendSysMessage("Your adventure has grown!"); // Message when leveling up may try and add the % back later.
-        }
+        player->SetObjectScale(newScale);
+        ChatHandler(player->GetSession())
+            .PSendSysMessage("Your adventure has grown!"); // Message when leveling up may try and add the % back later.
     }
 };
 
