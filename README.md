@@ -1,4 +1,4 @@
-# Grow Up
+# Grown Up
 ## mod-grownup 
 
 This module adds a visual sense of growth and progression to characters, making low-level adventurers look like small “young” versions of their races who literally grow up into heroes over the course of their journey. At even higher levels, veteran heroes can loom larger than their peers (but within a safe cap).
