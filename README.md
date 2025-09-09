@@ -6,7 +6,7 @@ This module adds a visual sense of growth and progression to characters, making 
 ### Features:
 First Login / Character Creation:
 
-- New characters begin their adventure smaller than normal (configurable, default 50% size).
+- New characters begin their adventure smaller than normal (configurable, default 60% size).
 
 Starter Growth (Level 1 → StarterMaxLevel, default 15):
 
