@@ -22,55 +22,84 @@ public:
     void OnPlayerLogin(Player* player) override
     {
         if (sConfigMgr->GetOption<bool>("GrownUp.Announce", true))
-            ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Grown Up |rmodule.");
-        if (sConfigMgr->GetOption<bool>("GrownUp.LoginCheck", true))
         {
-            uint8 level = player->GetLevel();
-            float newScale = 1.0f;
-
-            if (level < 5)
-                newScale = 0.5f;
-            else if (level < 10)
-                newScale = 0.65f;
-            else if (level < 15)
-                newScale = 0.85f;
-            else
-                newScale = 1.0f;
-
-            player->SetObjectScale(newScale);
+            ChatHandler(player->GetSession())
+                .SendSysMessage("This server is running the |cff4CFF00Grown Up|r module.");
         }
+
+        if (sConfigMgr->GetOption<bool>("GrownUp.LoginCheck", true))
+            ApplyScale(player, false); // ensure consistency
     }
 
     void OnPlayerFirstLogin(Player* player) override
     {
-        player->SetObjectScale(0.5f);
-        ChatHandler(player->GetSession()).SendSysMessage("Your adventure begins young one!");
+        // On very first login, set to the configured StarterMinScale
+        float starterMin =
+            sConfigMgr->GetOption<float>("GrownUp.StarterMinScale", 0.5f);
+
+        player->SetObjectScale(starterMin);
+
+        ChatHandler(player->GetSession())
+            .PSendSysMessage("Your adventure begins small!");
     }
 
     void OnPlayerLevelChanged(Player* player, uint8 /*oldLevel*/) override
     {
-        uint8 newLevel = player->GetLevel();
-        float newScale = 1.0f; // default full size
+        ApplyScale(player, true);
+    }
 
-        if (newLevel < 5)
-            newScale = 0.5f;
-        else if (newLevel < 10)
-            newScale = 0.65f;
-        else if (newLevel < 15)
-            newScale = 0.85f;
+private:
+    void ApplyScale(Player* player, bool notify)
+    {
+        uint32 starterMax =
+            sConfigMgr->GetOption<uint32>("GrownUp.StarterMaxLevel", 15);
+        uint32 highStart =
+            sConfigMgr->GetOption<uint32>("GrownUp.HighLevelStart", 65);
+        float highPercent =
+            sConfigMgr->GetOption<float>("GrownUp.HighLevelScalePercent", 0.5f);
+        float maxScale =
+            sConfigMgr->GetOption<float>("GrownUp.MaxScale", 1.2f); 
+        float starterMin =
+            sConfigMgr->GetOption<float>("GrownUp.StarterMinScale", 0.6f);
+
+        uint32 level = player->GetLevel();
+        float newScale = 1.0f;
+
+        if (level <= starterMax)
+        {
+            // Linear growth from StarterMin → 100%
+            if (starterMax > 1)
+                newScale = starterMin +
+                           ((level - 1) / float(starterMax - 1)) *
+                               (1.0f - starterMin);
+            else
+                newScale = 1.0f;
+        }
+        else if (level >= highStart)
+        {
+            // Beyond highStart: +X% per level
+            uint32 aboveLevels = level - highStart;
+            newScale = 1.0f + (aboveLevels * (highPercent / 100.0f));
+        }
         else
+        {
+            // Between starterMax and highStart → stagnant at 100%
             newScale = 1.0f;
+        }
+
+        // Cap scale
+        newScale = std::min(newScale, maxScale);
 
         player->SetObjectScale(newScale);
-        if (sConfigMgr->GetOption<bool>("GrownUp.GrownAnnounce", true))
+
+        if (notify && sConfigMgr->GetOption<bool>("GrownUp.GrownAnnounce", true))
         {
             ChatHandler(player->GetSession())
-                .PSendSysMessage("Your adventure has grown!"); // Message when leveling up may try and add the % back later.
+                .PSendSysMessage("You have grown adventure.");
         }
     }
 };
 
-// Add all scripts in one
 void AddGrowUpScripts()
 {
     new GrowUp();

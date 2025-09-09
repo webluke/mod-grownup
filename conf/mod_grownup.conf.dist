@@ -5,36 +5,74 @@
 ########################################
 #
 #    GrownUp.Enable
-#        Description: Enable model that shrinks players on character creation and slowly increases them to normal size by level 15.
+#        Description: Enable module that shrinks players on character creation
+#                     and slowly increases them to normal size by StarterMax level.
 #        Default:     0 - Disabled
 #                     1 - Enabled
 #
-
 GrownUp.Enable = 1
 
 #
-#    GrownUp.Enable
-#        Description: Check if player size is correct on login.
+#    GrownUp.LoginCheck
+#        Description: Ensure player size is correct on login based on level.
 #        Default:     0 - Disabled
 #                     1 - Enabled
 #
-
 GrownUp.LoginCheck = 1
 
 #
 #    GrownUp.Announce
-#        Description: Announce mod enabled on login.
+#        Description: Announce module enabled on login.
 #        Default:     0 - Disabled
 #                     1 - Enabled
 #
-
 GrownUp.Announce = 1
 
 #
 #    GrownUp.GrownAnnounce
-#        Description: Announce each level.
+#        Description: Announce size change each time a player levels up.
 #        Default:     0 - Disabled
 #                     1 - Enabled
 #
-
 GrownUp.GrownAnnounce = 0
+
+#
+#    GrownUp.StarterMinScale
+#        Description: The minimum scale players start with at level 1.
+#                     Example: 0.6 = 60% size
+#        Default:     0.6
+#
+GrownUp.StarterMinScale = 0.6
+
+#
+#    GrownUp.StarterMaxLevel
+#        Description: The level where players reach 100% scale.
+#                     Growth from StarterMinScale → 1.0f is linear across 1 → StarterMaxLevel.
+#        Default:     15
+#
+GrownUp.StarterMaxLevel = 15
+
+#
+#    GrownUp.HighLevelStart
+#        Description: The level where above-cap growth begins.
+#                     At this level grows again afterward by HighLevelScalePercent.
+#        Default:     65
+#
+GrownUp.HighLevelStart = 65
+
+#
+#    GrownUp.HighLevelScalePercent
+#        Description: Percentage increase applied per level above HighLevelStart.
+#                     Example: 0.5 = +05% per level.
+#        Default:     0.5
+#
+GrownUp.HighLevelScalePercent = 1.0
+
+#
+#    GrownUp.MaxScale
+#        Description: Maximum scale cap. Players cannot exceed this size no 
+#                     matter their level or scaling calculation.
+#                     Example: 1.2 = 120%
+#        Default:     1.2
+#
+GrownUp.MaxScale = 1.2
