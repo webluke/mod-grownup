@@ -1,0 +1,35 @@
+#
+# Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU AGPL v3 license: https://github.com/azerothcore/azerothcore-wotlk/blob/master/LICENSE-AGPL3
+#
+
+[worldserver]
+
+########################################
+# Grown Up configuration
+########################################
+#
+#    GrownUp.Enable
+#        Description: Enable model that shrinks players on character creation and slowly increases them to normal size by level 15.
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+
+GrownUp.Enable = 1
+
+#
+#    GrownUp.Enable
+#        Description: Check if player size is correct on login.
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+
+GrownUp.LoginCheck = 1
+
+#
+#    GrownUp.Announce
+#        Description: Announce mod enabled on login.
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+
+GrownUp.Announce = 1
