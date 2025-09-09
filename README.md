@@ -6,6 +6,8 @@
 #### Features:
 - Changes player size on initial creation, then changes their size as they level up through the first 15 levels to full size. Created for Azerothcore
 
+# ![screenshot](grownup.png) 
+
 ### This module currently requires:
 - AzerothCore vX.X.X+
 

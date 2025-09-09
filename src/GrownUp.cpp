@@ -24,7 +24,7 @@ public:
             ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Grown Up |rmodule.");
         if (sConfigMgr->GetOption<bool>("GrownUp.Enable", true) && sConfigMgr->GetOption<bool>("GrownUp.LoginCheck", true))
         {
-            uint8 level = player->getLevel();
+            uint8 level = player->GetLevel();
             float newScale = 1.0f;
 
             if (level < 5)
@@ -53,7 +53,7 @@ public:
     {
         if (sConfigMgr->GetOption<bool>("GrownUp.Enable", true))
         {
-            uint8 newLevel = player->getLevel();
+            uint8 newLevel = player->GetLevel();
             float newScale = 1.0f; // default full size
 
             if (newLevel < 5)
