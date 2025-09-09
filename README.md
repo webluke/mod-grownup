@@ -15,7 +15,7 @@
 ### How to install
 1. Simply place the module under the `modules` folder of your AzerothCore source folder.
 2. Re-run cmake and launch a clean build of AzerothCore
-3. Copy mod_growup.conf.dist to mod_growup.conf
+3. Copy mod_grownup.conf.dist to mod_grownup.conf
 4. Log in game, level up and enjoy.
 
 
