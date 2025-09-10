@@ -16,7 +16,11 @@ public:
     GrowUp() : PlayerScript("GrowUp", { 
         PLAYERHOOK_ON_LOGIN,
         PLAYERHOOK_ON_FIRST_LOGIN,
-        PLAYERHOOK_ON_LEVEL_CHANGED
+        PLAYERHOOK_ON_LEVEL_CHANGED,
+        PLAYERHOOK_ON_UPDATE_ZONE,
+        PLAYERHOOK_ON_MAP_CHANGED,
+        PLAYERHOOK_ON_UPDATE_AREA,
+        PLAYERHOOK_ON_PLAYER_RESURRECT
     }) { }
 
     void OnPlayerLogin(Player* player) override
@@ -28,16 +32,12 @@ public:
         }
 
         if (sConfigMgr->GetOption<bool>("GrownUp.LoginCheck", true))
-            ApplyScale(player, false); // ensure consistency
+            ApplyScale(player, false);
     }
 
     void OnPlayerFirstLogin(Player* player) override
     {
-        // On very first login, set to the configured StarterMinScale
-        float starterMin =
-            sConfigMgr->GetOption<float>("GrownUp.StarterMinScale", 0.5f);
-
-        player->SetObjectScale(starterMin);
+        ApplyScale(player, true);
 
         ChatHandler(player->GetSession())
             .PSendSysMessage("Your adventure begins small!");
@@ -46,6 +46,26 @@ public:
     void OnPlayerLevelChanged(Player* player, uint8 /*oldLevel*/) override
     {
         ApplyScale(player, true);
+    }
+
+    void OnPlayerUpdateZone(Player* player, uint32 /*newZone*/, uint32 /*newArea*/) override
+    {
+        ApplyScale(player, false);
+    }
+
+    void OnPlayerMapChanged(Player* player) override
+    {
+        ApplyScale(player, false);
+    }
+
+    void OnPlayerUpdateArea(Player* player, uint32 /*oldArea*/, uint32 /*newArea*/) override
+    {
+        ApplyScale(player, false);
+    }
+
+    void OnPlayerResurrect(Player* player, float /*restore_percent*/, bool /*applySickness*/) override
+    {
+        ApplyScale(player, false);
     }
 
 private:
