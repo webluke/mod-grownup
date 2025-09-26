@@ -115,7 +115,7 @@ private:
         if (notify && sConfigMgr->GetOption<bool>("GrownUp.GrownAnnounce", true))
         {
             ChatHandler(player->GetSession())
-                .PSendSysMessage("You have grown adventure.");
+                .PSendSysMessage("You have grown, adventurer.");
         }
     }
 };
